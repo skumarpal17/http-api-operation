@@ -22,24 +22,28 @@ class _HomePageState extends State<HomePage> {
         title: Text('Crud-Operation'),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Center(
-                child: FutureBuilder<ModelClass>(
-                  future: _services.fetchAlbum(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(snapshot.data!.title.toString());
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    return CircularProgressIndicator();
-                  },
-                ),
-              ),
-            ],
-          ),
+        child: Expanded(
+          child: Container(
+                child: FutureBuilder<List<ModelClass>>(
+                        future: _services.getData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData ) {
+                            return Center(
+                              child: ListView.builder(
+                                  itemCount: 30,//snapshot.data!.length,
+                                  itemBuilder: (context,index){
+                                return Text('${snapshot.data![index].title}');
+                              }),
+                            );
+
+                            // return Text(snapshot.data!.title.toString());
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+                          return CircularProgressIndicator();
+                        },
+                      ),
+            ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
