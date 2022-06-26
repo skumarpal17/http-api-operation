@@ -4,16 +4,22 @@ import 'dart:convert';
 
 class Services{
 
-  Future<ModelClass> fetchAlbum() async {
+  Future<List<ModelClass>> getData() async {
+    List<ModelClass> postlist = [];
     final response =
     await http.get(Uri.https('jsonplaceholder.typicode.com', '/posts'));
 
     // Appropriate action depending upon the
     // server response
+    final data = jsonDecode(response.body.toString());
     if (response.statusCode == 200) {
-      return ModelClass.fromJson(json.decode(response.body));
+      for(var i in data){
+        postlist.add( ModelClass.fromJson(i));
+      }
+
+      return postlist;
     } else {
-      throw Exception('Failed to load album');
+      throw Exception('Failed To Load Album');
     }
   }
 
