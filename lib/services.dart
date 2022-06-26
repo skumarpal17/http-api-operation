@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Services{
+  
+  // post and fetch
 
   Future<List<ModelClass>> getData() async {
     List<ModelClass> postlist = [];
